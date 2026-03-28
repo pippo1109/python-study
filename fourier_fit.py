@@ -24,14 +24,7 @@ def criar_venv():
         print(f"[setup] Ambiente virtual '{VENV_DIR}' já existe. Pulando criação.")
 
 
-def pip_executavel():
-    """Retorna o caminho do pip dentro do venv."""
-    if sys.platform == "win32":
-        return os.path.join(VENV_DIR, "Scripts", "pip.exe")
-    return os.path.join(VENV_DIR, "bin", "pip")
-
-
-def python_executavel():
+def python_venv_executavel():
     """Retorna o caminho do python dentro do venv."""
     if sys.platform == "win32":
         return os.path.join(VENV_DIR, "Scripts", "python.exe")
@@ -39,17 +32,25 @@ def python_executavel():
 
 
 def instalar_dependencias():
-    """Instala / atualiza as bibliotecas necessárias no venv."""
-    pip = pip_executavel()
+    """Instala / atualiza as bibliotecas necessárias no venv via 'python -m pip'."""
+    python_venv = python_venv_executavel()
     pacotes = [
         "numpy>=2.0",
         "matplotlib>=3.9",
         "scipy>=1.14",
     ]
     print("[setup] Atualizando pip...")
-    subprocess.check_call([pip, "install", "--upgrade", "pip"], stdout=subprocess.DEVNULL)
+    subprocess.check_call(
+        [python_venv, "-m", "pip", "install", "--upgrade", "pip"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
     print(f"[setup] Instalando pacotes: {', '.join(pacotes)}")
-    subprocess.check_call([pip, "install", "--upgrade"] + pacotes, stdout=subprocess.DEVNULL)
+    subprocess.check_call(
+        [python_venv, "-m", "pip", "install", "--upgrade"] + pacotes,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
     print("[setup] Dependências instaladas com sucesso.\n")
 
 
@@ -58,7 +59,7 @@ def reexecutar_no_venv():
     Se o script não estiver rodando dentro do venv, reinicia usando
     o interpretador do venv para garantir acesso às bibliotecas.
     """
-    python_venv = os.path.abspath(python_executavel())
+    python_venv = os.path.abspath(python_venv_executavel())
     python_atual = os.path.abspath(sys.executable)
 
     if python_atual != python_venv:
