@@ -1,4 +1,29 @@
 README - PASSOS DO PROJETO DE FLUXO DE POTENCIA 2026.2
+
+CONFIGURAR AMBIENTE PYTHON (Windows / PowerShell)
+- Abra o terminal na pasta principal do projeto e cole os comandos abaixo.
+- O ambiente virtual sera criado em .venv. Nao e necessario ativa-lo para instalar
+  as bibliotecas ou executar o script.
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install numpy pandas openpyxl
+```
+
+- Para executar o script da matriz Ybus, ainda na pasta principal do projeto:
+
+```powershell
+.\.venv\Scripts\python.exe .\code\Ybus.py
+```
+
+- numpy e pandas sao usados nos calculos e manipulacao dos dados. openpyxl e o
+  mecanismo usado pelo pandas para ler e gravar arquivos Excel (.xlsx).
+
+
+--------------------------------------------------------------
+
+
 SEP I - Sistemas Eletricos de Potencia - Prof. Artur Passos Dias Lima
 Centro Universitario SENAI CIMATEC
 
@@ -11,6 +36,7 @@ ARQUIVOS DE DADOS
 - Celulas vazias correspondem a "-" no enunciado.
 - Ler em Python com pd.read_excel('dados_barras.xlsx').
 - Todos os valores estao em p.u. na base de 100 MVA.
+
 
 
 
